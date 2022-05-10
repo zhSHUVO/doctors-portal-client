@@ -5,7 +5,7 @@ import phone from "../../assets/icons/phone.svg";
 
 const Info = () => {
     return (
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 px-12">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
             <div class="card lg:card-side bg-base-100 shadow-xl bg-primary text-white px-8 pt-6">
                 <figure>
                     <img src={clock} alt="opening hour" />
