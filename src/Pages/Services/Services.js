@@ -3,6 +3,7 @@ import cavity from "../../assets/images/cavity.png";
 import fluoride from "../../assets/images/fluoride.png";
 import treatment from "../../assets/images/treatment.png";
 import whitening from "../../assets/images/whitening.png";
+import PrimaryButton from "../Shared/PrimaryButton";
 import Service from "./Service";
 
 const Services = () => {
@@ -57,7 +58,7 @@ const Services = () => {
                             English. Many desktop publishing packages and web
                             page
                         </p>
-                        <button class="btn btn-primary">Get Started</button>
+                        <PrimaryButton>Get Started</PrimaryButton>
                     </div>
                 </div>
             </div>
