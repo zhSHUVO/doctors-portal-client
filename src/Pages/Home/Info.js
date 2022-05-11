@@ -6,7 +6,7 @@ import phone from "../../assets/icons/phone.svg";
 const Info = () => {
     return (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 lg:px-24 ">
-            <div className="card lg:card-side bg-base-100 shadow-xl bg-primary text-white px-8 ">
+            <div className="card lg:card-side  shadow-xl bg-primary text-white px-8 ">
                 <figure>
                     <img src={clock} alt="opening hour" />
                 </figure>
@@ -15,7 +15,7 @@ const Info = () => {
                     <p>Lorem Ipsum is simply dummy text of the pri</p>
                 </div>
             </div>
-            <div className="card lg:card-side bg-base-100 shadow-xl bg-accent text-white px-8 ">
+            <div className="card lg:card-side  shadow-xl bg-accent text-white px-8 ">
                 <figure>
                     <img src={marker} alt="location marker" />
                 </figure>
@@ -24,7 +24,7 @@ const Info = () => {
                     <p>Brooklyn, NY 10036, United States</p>
                 </div>
             </div>
-            <div className="card lg:card-side bg-base-100 shadow-xl bg-primary text-white px-8 ">
+            <div className="card lg:card-side  shadow-xl bg-primary text-white px-8 ">
                 <figure>
                     <img src={phone} alt="phone" />
                 </figure>
