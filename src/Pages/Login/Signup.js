@@ -1,14 +1,15 @@
 import React from "react";
 import {
-    useSignInWithEmailAndPassword,
+    useCreateUserWithEmailAndPassword,
     useSignInWithGoogle,
+    useUpdateProfile,
 } from "react-firebase-hooks/auth";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import auth from "../../firebaseinit";
 import Loading from "../Shared/Loading";
 
-const Login = () => {
+const Signup = () => {
     const [signInWithGoogle, gUser, gLoading, gError] =
         useSignInWithGoogle(auth);
     const {
@@ -16,58 +17,87 @@ const Login = () => {
         formState: { errors },
         handleSubmit,
     } = useForm();
+    const [createUserWithEmailAndPassword, eUser, eLoading, eError] =
+        useCreateUserWithEmailAndPassword(auth);
 
-    const [signInWithEmailAndPassword, eUser, eLoading, eError] =
-        useSignInWithEmailAndPassword(auth);
+    const [updateProfile, updating, updateError] = useUpdateProfile(auth);
 
-    let signinErrorMessage;
+    const navigate = useNavigate();
 
-    if (gLoading || eLoading) {
+    let signInError;
+
+    if (eLoading || gLoading || updating) {
         return <Loading></Loading>;
     }
 
-    if (eError || gError) {
-        signinErrorMessage = (
+    if (eError || gError || updateError) {
+        signInError = (
             <p className="text-red-500">
-                <small>{eError?.message || gError?.message}</small>
+                <small>
+                    {eError?.message || gError?.message || updateError?.message}
+                </small>
             </p>
         );
     }
 
-    if (gUser || eUser) {
-        console.log(gUser || eUser);
+    if (eUser || gUser) {
+        console.log(eUser || gUser);
     }
 
-    const onSubmit = (data) => {
-        console.log(data);
-        signInWithEmailAndPassword(data.email, data.password);
+    const onSubmit = async (data) => {
+        await createUserWithEmailAndPassword(data.email, data.password);
+        await updateProfile({ displayName: data.name });
+        console.log("update done");
+        navigate("/appointment");
     };
-
     return (
-        <div className="h-screen flex justify-center items-center">
+        <div className="flex h-screen justify-center items-center">
             <div className="card w-96 bg-base-100 shadow-xl">
                 <div className="card-body">
-                    <h2 className="text-center text-2xl font-bold">Login</h2>
+                    <h2 className="text-center text-2xl font-bold">Sign Up</h2>
                     <form onSubmit={handleSubmit(onSubmit)}>
+                        <div className="form-control w-full max-w-xs">
+                            <label className="label">
+                                <span className="label-text">Name</span>
+                            </label>
+                            <input
+                                type="text"
+                                placeholder="Your Name"
+                                className="input input-bordered w-full max-w-xs"
+                                {...register("name", {
+                                    required: {
+                                        value: true,
+                                        message: "Name is Required",
+                                    },
+                                })}
+                            />
+                            <label className="label">
+                                {errors.name?.type === "required" && (
+                                    <span className="label-text-alt text-red-500">
+                                        {errors.name.message}
+                                    </span>
+                                )}
+                            </label>
+                        </div>
+
                         <div className="form-control w-full max-w-xs">
                             <label className="label">
                                 <span className="label-text">Email</span>
                             </label>
                             <input
-                                {...register("email", {
-                                    required: {
-                                        value: true,
-                                        message: "email is required",
-                                    },
-                                    pattern: {
-                                        value: /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/,
-                                        message:
-                                            "provide a valid email address",
-                                    },
-                                })}
                                 type="email"
                                 placeholder="Your Email"
                                 className="input input-bordered w-full max-w-xs"
+                                {...register("email", {
+                                    required: {
+                                        value: true,
+                                        message: "Email is Required",
+                                    },
+                                    pattern: {
+                                        value: /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/,
+                                        message: "Provide a valid Email",
+                                    },
+                                })}
                             />
                             <label className="label">
                                 {errors.email?.type === "required" && (
@@ -87,20 +117,20 @@ const Login = () => {
                                 <span className="label-text">Password</span>
                             </label>
                             <input
+                                type="password"
+                                placeholder="Password"
+                                className="input input-bordered w-full max-w-xs"
                                 {...register("password", {
                                     required: {
                                         value: true,
-                                        message: "password is required",
+                                        message: "Password is Required",
                                     },
                                     minLength: {
                                         value: 6,
                                         message:
-                                            "must be at least 6 characters",
+                                            "Must be 6 characters or longer",
                                     },
                                 })}
-                                type="password"
-                                placeholder="Password"
-                                className="input input-bordered w-full max-w-xs"
                             />
                             <label className="label">
                                 {errors.password?.type === "required" && (
@@ -116,24 +146,21 @@ const Login = () => {
                             </label>
                         </div>
 
-                        {signinErrorMessage}
-
+                        {signInError}
                         <input
-                            className="btn w-full max-w-xs"
+                            className="btn w-full max-w-xs text-white"
                             type="submit"
-                            value="login"
+                            value="Sign Up"
                         />
                     </form>
-
-                    <p className="text-center">
+                    <p>
                         <small>
-                            New to Doctor's Portal?{" "}
-                            <Link to="/signup" className="text-primary">
-                                Create a new account
+                            Already have an account?{" "}
+                            <Link className="text-primary" to="/login">
+                                Please login
                             </Link>
                         </small>
                     </p>
-
                     <div className="divider">OR</div>
                     <button
                         onClick={() => signInWithGoogle()}
@@ -147,4 +174,4 @@ const Login = () => {
     );
 };
 
-export default Login;
+export default Signup;
