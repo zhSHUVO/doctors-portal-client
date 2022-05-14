@@ -3,6 +3,9 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import About from "./Pages/About/About";
 import Appointment from "./Pages/Appointment/Appointment";
+import Dashboard from "./Pages/Dashboard/Dashboard";
+import MyAppoinments from "./Pages/Dashboard/MyAppoinments";
+import MyReview from "./Pages/Dashboard/MyReview";
 import Home from "./Pages/Home/Home";
 import Authentication from "./Pages/Login/Authentication";
 import Login from "./Pages/Login/Login";
@@ -27,6 +30,23 @@ function App() {
                         </Authentication>
                     }
                 />
+                <Route
+                    path="dashboard"
+                    element={
+                        <Authentication>
+                            <Dashboard />
+                        </Authentication>
+                    }
+                >
+                    <Route
+                        index
+                        element={<MyAppoinments></MyAppoinments>}
+                    ></Route>
+                    <Route
+                        path="review"
+                        element={<MyReview></MyReview>}
+                    ></Route>
+                </Route>
             </Routes>
             <Footer></Footer>
             <ToastContainer></ToastContainer>
