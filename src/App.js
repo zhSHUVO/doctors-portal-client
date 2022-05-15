@@ -5,8 +5,11 @@ import About from "./Pages/About/About";
 import Appointment from "./Pages/Appointment/Appointment";
 import Dashboard from "./Pages/Dashboard/Dashboard";
 import MyAppoinments from "./Pages/Dashboard/MyAppoinments";
+import MyHistory from "./Pages/Dashboard/MyHistory";
 import MyReview from "./Pages/Dashboard/MyReview";
+import Users from "./Pages/Dashboard/Users";
 import Home from "./Pages/Home/Home";
+import Administration from "./Pages/Login/Administration";
 import Authentication from "./Pages/Login/Authentication";
 import Login from "./Pages/Login/Login";
 import Signup from "./Pages/Login/Signup";
@@ -45,6 +48,18 @@ function App() {
                     <Route
                         path="review"
                         element={<MyReview></MyReview>}
+                    ></Route>
+                    <Route
+                        path="history"
+                        element={<MyHistory></MyHistory>}
+                    ></Route>
+                    <Route
+                        path="users"
+                        element={
+                            <Administration>
+                                <Users></Users>
+                            </Administration>
+                        }
                     ></Route>
                 </Route>
             </Routes>
